@@ -5,13 +5,13 @@
 class Envee < Formula
   desc "Per-directory environment variable manager (pre-release)"
   homepage "https://github.com/baken667/envee"
-  version "0.1.1-rc.1"
+  version "0.3.0-rc.1"
   license "MIT"
 
   on_macos do
     on_intel do
-      url "https://github.com/baken667/envee/releases/download/v0.1.1-rc.1/envee_0.1.1-rc.1_darwin_amd64.tar.gz"
-      sha256 "bd3402303fd69366af3c32729156820b43891809d2a0cdc442e0844d82de385f"
+      url "https://github.com/baken667/envee/releases/download/v0.3.0-rc.1/envee_0.3.0-rc.1_darwin_amd64.tar.gz"
+      sha256 "90e249b8dd2ffd2cd36cfec2535163a78e37ca1f619f0c9ff1d55988cf6ba401"
 
       def install
         bin.install "envee"
@@ -23,8 +23,8 @@ class Envee < Formula
       end
     end
     on_arm do
-      url "https://github.com/baken667/envee/releases/download/v0.1.1-rc.1/envee_0.1.1-rc.1_darwin_arm64.tar.gz"
-      sha256 "90ca2d59973f200860cfab4ccbe9a329f7d5e08e8283bc33ef11475675592999"
+      url "https://github.com/baken667/envee/releases/download/v0.3.0-rc.1/envee_0.3.0-rc.1_darwin_arm64.tar.gz"
+      sha256 "9bea972ff0a8e41e0a1e71a5d3841d9d92a551c3c5d2719ac87fa807d3f290fb"
 
       def install
         bin.install "envee"
@@ -40,8 +40,8 @@ class Envee < Formula
   on_linux do
     on_intel do
       if Hardware::CPU.is_64_bit?
-        url "https://github.com/baken667/envee/releases/download/v0.1.1-rc.1/envee_0.1.1-rc.1_linux_amd64.tar.gz"
-        sha256 "c25477d81d318077dd55bc77c211d1d48b99c55da73a17e9083a50c36ecf31c2"
+        url "https://github.com/baken667/envee/releases/download/v0.3.0-rc.1/envee_0.3.0-rc.1_linux_amd64.tar.gz"
+        sha256 "1b1101756692eccb9f42ef3de6184b1e286c7cd1ad7f53da2e1376d2d0c8ced3"
 
         def install
           bin.install "envee"
@@ -55,8 +55,8 @@ class Envee < Formula
     end
     on_arm do
       if Hardware::CPU.is_64_bit?
-        url "https://github.com/baken667/envee/releases/download/v0.1.1-rc.1/envee_0.1.1-rc.1_linux_arm64.tar.gz"
-        sha256 "914ab0da72d3606aa1cc50d4fc6f265770c7d4cbee13054b585d334f0fc61aa3"
+        url "https://github.com/baken667/envee/releases/download/v0.3.0-rc.1/envee_0.3.0-rc.1_linux_arm64.tar.gz"
+        sha256 "f8d2e14884d44ad10d8de3b34ef227c55c1013a7df5db1b5c9233deccc388735"
 
         def install
           bin.install "envee"
@@ -88,5 +88,9 @@ class Envee < Formula
     assert_match version.to_s, shell_output("#{bin}/envee --version")
     assert_match "_envee_hook", shell_output("#{bin}/envee init bash")
     assert_match "add-zsh-hook", shell_output("#{bin}/envee init zsh")
+    # Kept in sync with the production config deliberately. This assertion
+    # was missing here, so the pre-release channel did not exercise the fish
+    # hook -- which is precisely the one that shipped broken in v0.2.0.
+    assert_match "_envee_hook", shell_output("#{bin}/envee init fish")
   end
 end
